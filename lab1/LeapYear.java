@@ -3,6 +3,28 @@
  */
 public class LeapYear {
 
+
+
+    /** Returns true if input year is a leap year and false if not.
+    */
+
+    public static boolean isLeapYear(int year){
+        boolean yearbool = false;
+        if (year % 400 == 0){
+            yearbool = true;
+        }
+        else if (year % 4 == 0){
+            if (year % 100 != 0){
+                yearbool = true;
+            }
+            }
+        
+        else {
+            yearbool = false;
+        }
+        return yearbool;
+    }
+
     /** Calls isLeapYear to print correct statement.
      *  @param  year to be analyzed
      */
