@@ -105,10 +105,9 @@ F = (G *m1*m2) / rsquared
 		this.yyPos = pnewy;
 	}
 
-
-
-
-
+	public void draw(){
+		StdDraw.picture(xxPos, yyPos, "./images/" + imgFileName);
+	}
 
 
 	}
