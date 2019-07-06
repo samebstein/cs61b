@@ -24,7 +24,7 @@ public class HugLife {
      * Time in milliseconds between simulation steps.
      * Reduce to make things run faster.
      */
-    public static final int PAUSE_TIME_PER_SIMSTEP = 100;
+    public static final int PAUSE_TIME_PER_SIMSTEP = 200;
 
     /**
      * If true, the HugLifeAnimator class saves an image after every cycle.
@@ -104,12 +104,12 @@ public class HugLife {
             addCreature(4, 3, new Plip());
         } else if (worldName.equals("strugggz")) {
             System.out.println("You need to uncomment the strugggz test!");
-            /*addCreature(11, 1, new SampleCreature());
+            addCreature(11, 1, new SampleCreature());
             addCreature(12, 12, new Plip());
             addCreature(3, 3, new Plip());
             addCreature(4, 3, new Plip());
 
-            addCreature(2, 2, new Clorus(1));*/
+            addCreature(2, 2, new Clorus(1));
         } else {
             System.out.println("World name not recognized!");
         }
@@ -132,9 +132,9 @@ public class HugLife {
             int y = in.readInt();
             switch (creature) {
                 //Uncomment this when you're ready to test out your clorus class
-                //case "clorus":
-                //    h.addCreature(x, y, new Clorus(1));
-                //    break;
+                case "clorus":
+                    h.addCreature(x, y, new Clorus(1));
+                    break;
                 case "plip":
                     h.addCreature(x, y, new Plip());
                     break;
