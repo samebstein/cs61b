@@ -1,5 +1,5 @@
 /**
- * Implementation of Weighted Quick Union with Path Compression.
+ * Implementation of Weighted Quick Union (UF) with Path Compression.
  * @author Sam Ebstein
  */
 
@@ -12,7 +12,7 @@ public class UnionFind {
     /* Creates a UnionFind data structure holding n vertices. Initially, all
        vertices are in disjoint sets. */
     public UnionFind(int n) {
-        // TODO
+
         sizeOfArray = n;
         disjointSet = new int[sizeOfArray];
         for (int i = 0; i < sizeOfArray; i++) {
@@ -22,26 +22,28 @@ public class UnionFind {
 
     /* Throws an exception if v1 is not a valid index. */
     private void validate(int vertex) {
-        // TODO
-        throw new ArrayIndexOutOfBoundsException();
+
+        if (vertex >= sizeOfArray) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
     }
 
     /* Returns the size of the set v1 belongs to. */
     public int sizeOf(int v1) {
-        // TODO
+
         return disjointSet[find(v1)] * -1;
     }
 
     /* Returns the parent of v1. If v1 is the root of a tree, returns the
        negative size of the tree for which v1 is the root. */
     public int parent(int v1) {
-        // TODO
+
         return disjointSet[v1];
     }
 
     /* Returns true if nodes v1 and v2 are connected. */
     public boolean connected(int v1, int v2) {
-        // TODO
+
         return find(v1) == find(v2);
     }
 
@@ -51,7 +53,7 @@ public class UnionFind {
        vertex with itself or vertices that are already connected should not 
        change the sets but may alter the internal structure of the data. */
     public void union(int v1, int v2) {
-        // TODO
+
         int v1Root = find(v1);
         int v2Root = find(v2);
 
@@ -70,8 +72,6 @@ public class UnionFind {
     /* Returns the root of the set V belongs to. Path-compression is employed
        allowing for fast search-time. */
     public int find(int vertex) {
-        // TODO
-        // I DIDN'T USE PATH COMPRESSION YET
 
         if (disjointSet[vertex] < 0) {
             return vertex;
