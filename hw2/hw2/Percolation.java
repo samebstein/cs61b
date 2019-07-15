@@ -3,17 +3,18 @@ package hw2;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-    Node[][] grid;
-    int openSites;
-    int N;
-    WeightedQuickUnionUF wuf;
+    private Node[][] grid;
+    private int openSites;
+    private int N;
+    private WeightedQuickUnionUF wuf;
+    private WeightedQuickUnionUF wufNoBottom;
 
     private class Node {
         private boolean b;
         private int coordinate;
         private boolean full;
 
-        public Node(int row, int col) {
+        private Node(int row, int col) {
             this.coordinate = xyToCoordinate(row, col);
             this.b = false;
             if (coordinate < N) {
@@ -24,16 +25,15 @@ public class Percolation {
         }
     }
     /** Returns an integer value given integer coordinates in a two dimensional array. */
-    public int xyToCoordinate(int row, int col) {
-        int value = row * N + col;
-        return value;
+    private int xyToCoordinate(int row, int col) {
+       return row * N + col;
     }
 
-    public int valueToRow(int number) {
+    private int valueToRow(int number) {
         return number / N;
     }
 
-    public int valueToCol(int number) {
+    private int valueToCol(int number) {
         return number % N;
     }
 
@@ -45,6 +45,7 @@ public class Percolation {
         this.N = N;
         this.openSites = 0;
         this.wuf = new WeightedQuickUnionUF(N*N + 2);
+        this.wufNoBottom = new WeightedQuickUnionUF(N*N + 1);
         grid = new Node[N][N];
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
@@ -66,6 +67,7 @@ public class Percolation {
         int value = xyToCoordinate(row, col);
         if (value < N) {
             wuf.union(value, N*N);
+            wufNoBottom.union(value, N*N);
         }
         if (value < N*N && value >= N*N - N) {
             wuf.union(value, N*N + 1);
@@ -75,6 +77,7 @@ public class Percolation {
             int c = valueToCol(value + N);
             if (grid[r][c].b) {
                 wuf.union(value, value + N);
+                wufNoBottom.union(value, value + N);
             }
         }
         if (legitimatePlusMinusN(value - N)) {
@@ -82,6 +85,7 @@ public class Percolation {
             int c = valueToCol(value - N);
             if (grid[r][c].b) {
                 wuf.union(value, value - N);
+                wufNoBottom.union(value, value - N);
             }
         }
         if (legitimatePlus1(value + 1)) {
@@ -89,6 +93,7 @@ public class Percolation {
             int c = valueToCol(value + 1);
             if (grid[r][c].b) {
                 wuf.union(value, value + 1);
+                wufNoBottom.union(value, value + 1);
             }
 
         }
@@ -97,6 +102,7 @@ public class Percolation {
             int c = valueToCol(value - 1);
             if (grid[r][c].b) {
                 wuf.union(value, value - 1);
+                wufNoBottom.union(value, value - 1);
             }
         }
     }
@@ -106,15 +112,15 @@ public class Percolation {
      * plus/minus N and the plus/minus 1 with if statements and then find statements in the open
      * function.
      */
-    public boolean legitimatePlusMinusN(int adjacent) {
+    private boolean legitimatePlusMinusN(int adjacent) {
         return adjacent < N*N && adjacent >= 0;
     }
 
-    public boolean legitimatePlus1(int adjacent) {
+    private boolean legitimatePlus1(int adjacent) {
         return adjacent % N != 0;
     }
 
-    public boolean legitimateMinus1(int adjacent) {
+    private boolean legitimateMinus1(int adjacent) {
         if (adjacent < 0) {
             return false;
         }
@@ -153,10 +159,7 @@ public class Percolation {
             throw new java.lang.IndexOutOfBoundsException();
         }
         int value = xyToCoordinate(row, col);
-        if (wuf.find(value) == wuf.find(N * N)) {
-            return true;
-        }
-        return false;
+        return wuf.connected(value, N*N) && wufNoBottom.connected(value, N*N);
     }
 
     /** return int number of open sites */
@@ -166,10 +169,7 @@ public class Percolation {
 
     /** does the system percolate? */
     public boolean percolates() {
-        if(wuf.find(N*N + 1) == wuf.find(N*N)) {
-            return true;
-        }
-        return false;
+        return wuf.connected(N * N, N * N + 1);
     }
 
     /** use for unit testing (not required, but keep this here for the autograder) */

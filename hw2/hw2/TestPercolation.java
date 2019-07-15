@@ -64,4 +64,12 @@ public class TestPercolation {
         assertTrue(p3.isFull(2, 0));
         assertTrue(p3.percolates());
     }
+
+    @Test
+    public void test() {
+        int[] a = {1, 2, 3};
+        double x = 5.5 / 5;
+        System.out.println(x);
+        int y = 5/5;
+    }
 }
