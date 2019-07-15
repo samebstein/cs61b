@@ -1,0 +1,35 @@
+ public boolean isFull(int row, int col) {
+        if (row >= N || col >= N) {
+            throw new java.lang.IndexOutOfBoundsException();
+        }
+        int value = xyToCoordinate(row, col);
+        for (int i = 0; i < N; i++){
+            int topRowNumber = xyToCoordinate(0, i);
+            if (wuf.find(value) == wuf.find(topRowNumber) && grid[0][i].b == true) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** return int number of open sites */
+    public int numberOfOpenSites() {
+        return openSites;
+    }
+
+    /** does the system percolate? */
+    public boolean percolates() {
+        for (int i = 1; i <= N; i++) {
+            int row = valueToRow(N*N - i);
+            int col = valueToCol(N*N - i);
+            if (isFull(row, col)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** use for unit testing (not required, but keep this here for the autograder) */
+    public static void main(String[] args) {
+    }
+}
