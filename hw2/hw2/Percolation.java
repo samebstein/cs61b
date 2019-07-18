@@ -3,18 +3,18 @@ package hw2;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-    private Node[][] grid;
-    private int openSites;
-    private int N;
-    private WeightedQuickUnionUF wuf;
-    private WeightedQuickUnionUF wufNoBottom;
+    Node[][] grid;
+    int openSites;
+    int N;
+    WeightedQuickUnionUF wuf;
+    WeightedQuickUnionUF wufNoBottom;
 
     private class Node {
         private boolean b;
         private int coordinate;
         private boolean full;
 
-        private Node(int row, int col) {
+        public Node(int row, int col) {
             this.coordinate = xyToCoordinate(row, col);
             this.b = false;
             if (coordinate < N) {
@@ -25,15 +25,15 @@ public class Percolation {
         }
     }
     /** Returns an integer value given integer coordinates in a two dimensional array. */
-    private int xyToCoordinate(int row, int col) {
+    public int xyToCoordinate(int row, int col) {
        return row * N + col;
     }
 
-    private int valueToRow(int number) {
+    public int valueToRow(int number) {
         return number / N;
     }
 
-    private int valueToCol(int number) {
+    public int valueToCol(int number) {
         return number % N;
     }
 
@@ -112,15 +112,15 @@ public class Percolation {
      * plus/minus N and the plus/minus 1 with if statements and then find statements in the open
      * function.
      */
-    private boolean legitimatePlusMinusN(int adjacent) {
+    public boolean legitimatePlusMinusN(int adjacent) {
         return adjacent < N*N && adjacent >= 0;
     }
 
-    private boolean legitimatePlus1(int adjacent) {
+    public boolean legitimatePlus1(int adjacent) {
         return adjacent % N != 0;
     }
 
-    private boolean legitimateMinus1(int adjacent) {
+    public boolean legitimateMinus1(int adjacent) {
         if (adjacent < 0) {
             return false;
         }
