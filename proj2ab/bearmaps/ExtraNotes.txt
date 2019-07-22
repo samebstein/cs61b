@@ -1,0 +1,9 @@
+
+        int temp = k;
+        while (temp >= 2) {
+            if (heap.get(temp).compareTo(heap.get(parent(temp))) < 0) {
+                swap(temp, parent(temp));
+                temp = parent(temp);
+            }
+        }
+    }
