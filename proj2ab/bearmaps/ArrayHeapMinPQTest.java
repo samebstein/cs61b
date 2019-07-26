@@ -1,5 +1,5 @@
 package bearmaps;
-
+import edu.princeton.cs.algs4.Stopwatch;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -48,6 +48,17 @@ public class ArrayHeapMinPQTest {
 
     @Test
     public void changePriorityTest() {
+        ArrayHeapMinPQ<String> initial3 = new ArrayHeapMinPQ<>();
+        initial3.add("sam", 2);
+        initial3.add("jared", 3);
+        initial3.add("james", 4);
+        initial3.add("nari", 1);
+        initial3.changePriority("jared", 0);
+        assertEquals(initial3.getSmallest(), "jared");
+        initial3.changePriority("jared", 10);
+        assertEquals(initial3.getSmallest(), "nari");
+        initial3.changePriority("nari", 2);
+        assertEquals(initial3.getSmallest(), "nari");
 
     }
 
@@ -60,5 +71,32 @@ public class ArrayHeapMinPQTest {
         initial2.add("nari", 1);
         initial2.removeSmallest();
         assertFalse(initial2.contains("nari"));
+    }
+
+    @Test
+    public void testRemoveSmallest() {
+        ArrayHeapMinPQ<String> initial3 = new ArrayHeapMinPQ<>();
+        initial3.add("sam", 2);
+        initial3.add("jared", 3);
+        initial3.add("james", 4);
+        initial3.add("nari", 1);
+        for (int i = 0; i < 4; i++){
+            initial3.removeSmallest();
+        }
+    }
+
+    @Test
+    public void testTiming() {
+        ArrayHeapMinPQ<String> heapMine = new ArrayHeapMinPQ<>();
+        for (int i = 1; i < 5; i += 1) {
+            heapMine.add("hi" + i, i);
+        }
+
+        heapMine.removeSmallest();
+        heapMine.removeSmallest();
+        heapMine.removeSmallest();
+        heapMine.removeSmallest();
+        //Stopwatch sw = new Stopwatch();
+        //System.out.println("Total time elapsed of my implementation: " + sw.elapsedTime() +  " seconds.");
     }
 }

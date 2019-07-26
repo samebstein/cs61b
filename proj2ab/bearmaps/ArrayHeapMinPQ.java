@@ -46,7 +46,7 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ <T> {
 
 
     /* Adds an item with the given priority value. Throws an
-     * IllegalArgumentExceptionb if item is already present.
+     * IllegalArgumentException if item is already present.
      * You may assume that item is never null. */
     public void add(T item, double priority) {
         if (contains(item)) {
@@ -82,16 +82,15 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ <T> {
         T temp = heap.get(1).item;
         if (hashMap.size() == 1) {
             index -= 1;
-            heap.set(index, null);
+            heap.remove(index);
             hashMap.remove(temp);
             return temp;
         }
         heap.set(1, heap.get(index - 1));
-        heap.set(index - 1, null);
+        heap.remove(index - 1);
         hashMap.put(heap.get(1).item, 1);
         index -= 1;
         sink(1);
-        heap.set(index, null);
         hashMap.remove(temp);
         return temp;
     }
@@ -103,8 +102,8 @@ public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ <T> {
         if (rightChild(k) >= index) {
             if (heap.get(k).getPriority() > heap.get(leftChild(k)).getPriority()){
                 swap(k, leftChild(k));
-                return;
             }
+            return;
         }
         PriorityNode leftChildNode = heap.get(leftChild(k));
         PriorityNode rightChildNode = heap.get(rightChild(k));
