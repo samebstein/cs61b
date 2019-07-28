@@ -52,6 +52,28 @@ public class TestMyTrieSet {
         for (String s: otherStrings) {
             assertFalse(keys.contains(s));
         }
+
+
+        String[] familyJEs = new String[]{"jeremy", "jeff"};
+        String[] familyJAs = new String[]{"james", "jared"};
+        MyTrieSet family = new MyTrieSet();
+        for (String s : familyJEs) {
+            family.add(s);
+        }
+        for (String s : familyJAs) {
+            family.add(s);
+        }
+
+        List<String> keysJA = family.keysWithPrefix("ja");
+        List<String> keysJE = family.keysWithPrefix("je");
+
+        for (String s : familyJAs) {
+            assertTrue(keysJA.contains(s));
+        }
+
+        for (String s : familyJEs) {
+            assertTrue(keysJE.contains(s));
+        }
     }
 
     public static void main(String[] args) {

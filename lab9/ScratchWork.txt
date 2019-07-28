@@ -1,0 +1,26 @@
+Set<Character> values = curr.map.keySet();
+
+        for (char c : values) {
+            words.addAll(keysWithPrefixHelper(prefix + c, curr.map.get(c).map));
+        }
+        return words;
+    }
+
+    private List<String> keysWithPrefixHelper(String prefix, HashMap<Character, Node> children) {
+        List<String> newWords = new ArrayList<>();
+        if (children.isEmpty()) {
+            return null;
+        }
+        Set<Character> values = children.keySet();
+        for (char c : values) {
+            if (children.get(c).isKey) {
+                newWords.add(prefix + c);
+            }
+            List<String> recursiveWords = keysWithPrefixHelper(prefix + c, children.get(c).map);
+            newWords.addAll(recursiveWords);
+        }
+
+        return newWords;
+
+
+    }
