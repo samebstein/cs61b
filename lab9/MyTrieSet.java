@@ -89,7 +89,7 @@ public class MyTrieSet implements TrieSet61B {
             }
         }
 
-        Set<Character> keys = curr.map.keySet();
+
         return prefixHelper(curr, prefix);
     }
     /** I want to call a helper function that goes through recursively, receives a node,
