@@ -1,0 +1,25 @@
+best = nearestHelper(goodSide, goal, best);
+
+        Point potentialPoint = potentialPoint(n, n.orientation);
+        if (Point.distance(goal, potentialPoint) < Point.distance(goal, best.getP())) {
+            best = nearestHelper(badSide, goal, best);
+        }
+        return best;
+    }
+
+    private Point potentialPoint(Node n, boolean orientation) {
+        if (orientation == HORIZONTAL) {
+           return new Point(n.getP().getX(), 0);
+        } else {
+           return new Point(0, n.getP().getY());
+        }
+    }
+}
+
+
+
+double cmpBad = comparePoints(n.getP(), goal, n.orientation);
+        cmpBad *= cmpBad;
+        if (cmpBad < Point.distance(goal, best.getP())) {
+            best = nearestHelper(badSide, goal, best);
+        }
