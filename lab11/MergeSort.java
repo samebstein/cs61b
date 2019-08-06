@@ -39,11 +39,19 @@ public class MergeSort {
      * @param   items  A Queue of items.
      * @return         A Queue of queues, each containing an item from items.
      *
-     */
+     *    /** This method takes in a Queue called items, and should return a Queue of Queues that
+     *      * each contain one item from items. For example, if you called makeSingleItemQueues on the
+     *      * Queue "(Joe" -> "Omar" -> "Itai"), it should return (("Joe") -> ("Omar") -> ("Itai")).*/
+
     private static <Item extends Comparable> Queue<Queue<Item>>
             makeSingleItemQueues(Queue<Item> items) {
-        // Your code here!
-        return null;
+        Queue<Queue<Item>> queueQueueItems = new Queue<>();
+        while (!items.isEmpty()) {
+            Queue<Item> q = new Queue<>();
+            q.enqueue(items.dequeue());
+            queueQueueItems.enqueue(q);
+        }
+        return queueQueueItems;
     }
 
     /**
@@ -58,11 +66,33 @@ public class MergeSort {
      * @return      A Queue containing all of the q1 and q2 in sorted order, from least to
      *              greatest.
      *
+     * This method takes two sorted queues q1 and q2 as parameters, and returns
+     * a new queue that has all of the items in q1 and q2 in sorted order.
+     * For example, mergeSortedQueues(("Itai" -> "Omar"), ("Joe")) should
+     * return ("Itai" -> "Joe" -> "Omar").
+     * The provided getMin helper method may be helpful in implementing mergeSortedQueues. Your implementation should take time linear in the total number of items in q1
+     * and q2. In other words, your implementation should be Θ(q1.size() + q2.size()).
      */
     private static <Item extends Comparable> Queue<Item> mergeSortedQueues(
             Queue<Item> q1, Queue<Item> q2) {
-        // Your code here!
-        return null;
+        Queue<Item> q = new Queue<>();
+        while (!q1.isEmpty() && !q2.isEmpty()) {
+            Item min = MergeSort.getMin(q1, q2);
+            q.enqueue(min);
+        }
+
+        if (!q1.isEmpty()) {
+            while (!q1.isEmpty()) {
+                q.enqueue(q1.dequeue());
+            }
+        }
+
+        if (!q2.isEmpty()) {
+            while (!q2.isEmpty()) {
+                q.enqueue(q2.dequeue());
+            }
+        }
+        return q;
     }
 
     /**
@@ -74,10 +104,47 @@ public class MergeSort {
      * @param   items  A Queue to be sorted.
      * @return         A Queue containing every item in "items".
      *
+     *
+     * Steps: recursive function, so need base case. If a queue is of size 1, its sorted,
+     * so return that queue. Otherwise:
+     * 1) Split the queue of items into two equal (sometimes just off equal) queues of items.
+     * 2) Call Mergesort on the left, and mergesort on the right. each will return queue of sorted items.
+     * 3) Then
+     *
+     *
      */
     public static <Item extends Comparable> Queue<Item> mergeSort(
             Queue<Item> items) {
-        // Your code here!
-        return items;
+        Queue<Queue<Item>> singleItemQueueOfQueues = makeSingleItemQueues(items);
+
+        return mergeSortHelper(singleItemQueueOfQueues);
     }
+
+
+    private static <Item extends Comparable> Queue<Item>
+                    mergeSortHelper(Queue<Queue<Item>> singleItemQueueOfQueues) {
+        int size = singleItemQueueOfQueues.size();
+        Queue<Item> q;
+        Queue<Queue<Item>> left = new Queue<>();
+        Queue<Queue<Item>> right = new Queue<>();
+
+       if (size == 2) {
+           q = mergeSortedQueues(singleItemQueueOfQueues.dequeue(), singleItemQueueOfQueues.dequeue());
+           return q;
+       } else if (size == 1) {
+           return singleItemQueueOfQueues.dequeue();
+       } else {
+           for (int i = 0; i < size / 2; i++) {
+               left.enqueue(singleItemQueueOfQueues.dequeue());
+           }
+           for (int i = 0; i < (size - size/2); i++) {
+               right.enqueue(singleItemQueueOfQueues.dequeue());
+           }
+       }
+       Queue<Item> leftSorted = mergeSortHelper(left);
+       Queue<Item> rightSorted = mergeSortHelper(right);
+       q = mergeSortedQueues(leftSorted, rightSorted);
+       return q;
+    }
+
 }

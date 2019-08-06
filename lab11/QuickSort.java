@@ -1,4 +1,8 @@
 import edu.princeton.cs.algs4.Queue;
+import edu.princeton.cs.algs4.Quick;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class QuickSort {
     /**
@@ -57,7 +61,19 @@ public class QuickSort {
     private static <Item extends Comparable> void partition(
             Queue<Item> unsorted, Item pivot,
             Queue<Item> less, Queue<Item> equal, Queue<Item> greater) {
-        // Your code here!
+
+        while (!unsorted.isEmpty()) {
+            Item x = unsorted.dequeue();
+            if (x.compareTo(pivot) < 0) {
+                less.enqueue(x);
+            }
+            if (x.compareTo(pivot) == 0) {
+                equal.enqueue(x);
+            }
+            if (x.compareTo(pivot) > 0) {
+                greater.enqueue(x);
+            }
+        }
     }
 
     /**
@@ -68,7 +84,29 @@ public class QuickSort {
      */
     public static <Item extends Comparable> Queue<Item> quickSort(
             Queue<Item> items) {
-        // Your code here!
-        return items;
+        if (items.size() == 1) {
+            return items;
+        }
+
+        Item pivot = getRandomItem(items);
+        Queue<Item> less = new Queue<>();
+        Queue<Item> equal = new Queue<>();
+        Queue<Item> greater = new Queue<>();
+        QuickSort.partition(items, pivot, less, equal, greater);
+        Queue<Item> l;
+        Queue<Item> g;
+        if (less.size() == 0 && greater.size() != 0) {
+            g = QuickSort.quickSort(greater);
+            return QuickSort.catenate(equal, g);
+        } else if (less.size() != 0 && greater.size() == 0) {
+            l = QuickSort.quickSort(less);
+            return QuickSort.catenate(l, equal);
+        } else if (less.size() != 0 && greater.size() != 0) {
+            l = QuickSort.quickSort(less);
+            g = QuickSort.quickSort(greater);
+            return QuickSort.catenate(QuickSort.catenate(l, equal), g);
+        } else {
+            return equal;
+        }
     }
 }
